@@ -12,6 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 .c-container {
+  display: flex;
   padding: 80px 20px;
   margin: 0 auto;
   max-width: 1000px;

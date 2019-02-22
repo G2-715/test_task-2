@@ -13,6 +13,5 @@ export default {
 <style lang="scss" scoped>
 .c-content {
   width: 640px;
-  float: right;
 }
 </style>

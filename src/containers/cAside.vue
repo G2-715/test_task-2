@@ -13,6 +13,5 @@ export default {
 <style lang="scss" scoped>
 .c-aside {
   width: 320px;
-  float: left;
 }
 </style>

@@ -65,4 +65,23 @@ export default {
   background-color: #101114;
   min-height: 100vh;
 }
+
+p {
+  margin: 0;
+}
+
+.gray-text,
+.dark-text {
+  font-size: 16px;
+  font-family: "Arial MT";
+  line-height: 21px;
+}
+
+.gray-text {
+  color: #8494ab;
+}
+
+.dark-text {
+  color: #373c43;
+}
 </style>
