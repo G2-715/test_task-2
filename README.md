@@ -1,5 +1,3 @@
-# test-task_2
-
 ## Project setup
 ```
 yarn install
