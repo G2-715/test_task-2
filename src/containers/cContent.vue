@@ -1,19 +1,18 @@
 <template>
-  <div class="c-aside">
-    ASIDE
+  <div class="c-content">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: "cAside"
+  name: "cContent"
 }
 </script>
 
 <style lang="scss" scoped>
-.c-aside {
-  width: 320px;
-  float: left;
+.c-content {
+  width: 640px;
+  float: right;
 }
 </style>

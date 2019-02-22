@@ -2,22 +2,27 @@
   <div id="app">
     <c-container>
       <c-aside>
-
+        <v-aside />
       </c-aside>
-      <c-content>
-        <router-view />
 
-        <v-footer></v-footer>
+      <c-content>
+        <c-content-wrapper>
+          <router-view />
+        </c-content-wrapper>
+
+        <v-footer />
       </c-content>
     </c-container>
   </div>
 </template>
 
 <script>
-import cContainer from "./components/containers/cContainer";
-import cAside from "./components/containers/cAside";
-import cContent from "./components/containers/cContent";
+import cContainer from "./containers/cContainer";
+import cAside from "./containers/cAside";
+import cContent from "./containers/cContent";
+import cContentWrapper from "./containers/cContentWrapper";
 
+import vAside from "./components/vAside";
 import vFooter from "./components/vFooter";
 
 export default {
@@ -26,7 +31,9 @@ export default {
     "c-container": cContainer,
     "c-aside": cAside,
     "c-content": cContent,
+    "c-content-wrapper": cContentWrapper,
 
+    "v-aside": vAside,
     "v-footer": vFooter
   }
 };
@@ -34,6 +41,26 @@ export default {
 
 
 <style lang="scss">
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+
+@font-face {
+  font-family: "fontb267362fe0bf162719681f797a756433";
+
+  src: url("https://nomail.com.ua/files/eot/b267362fe0bf162719681f797a756433.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://nomail.com.ua/files/woff/b267362fe0bf162719681f797a756433.woff")
+      format("woff"),
+    url("https://nomail.com.ua/files/woff2/b267362fe0bf162719681f797a756433.woff2")
+      format("woff2");
+}
+
+@font-face {
+  font-family: "Arial MT";
+  src: local("ArialMT"),
+    url("https://nomail.com.ua/files/woff/b267362fe0bf162719681f797a756433.woff")
+      format("woff");
+}
+
 #app {
   background-color: #101114;
   min-height: 100vh;
