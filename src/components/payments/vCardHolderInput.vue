@@ -1,6 +1,9 @@
 <template>
   <input
-    class="card-holder-input"
+    :class="{
+      'card-holder-input': true,
+      'invalid': invalid
+    }"
     :style="{textShadow: value.length ? '0 0 0 #373c43' : '0 0 0 #bec6cf'}"
     :value="value.length ? value : placeholder"
     @keydown.delete.prevent="deleteChar"
@@ -9,21 +12,33 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+
 export default {
   name: "vCardHolderInput",
   data() {
     return {
-      value: "",
       placeholder: "Держатель карты"
     };
   },
+  computed: {
+    ...mapState({
+      value: state => state.cardHolder,
+      invalid: state => state.invalidCardHolder
+    })
+  },
   methods: {
+    ...mapMutations([
+      "ADD_CARD_HOLDER_CHAR",
+      "REMOVE_CARD_HOLDER_CHAR"
+    ]),
+
     changeValue(event) {
       if (/[a-zA-Z]/.test(event.key) || event.key === " ")
-        this.value += event.key.toUpperCase();
+        this.ADD_CARD_HOLDER_CHAR(event.key.toUpperCase());
     },
     deleteChar() {
-      this.value = this.value.slice(0, this.value.length - 1);
+      this.REMOVE_CARD_HOLDER_CHAR();
     }
   },
   filters: {
@@ -45,9 +60,10 @@ export default {
   font-weight: 400;
   padding: 11px 13px;
   box-sizing: border-box;
+  transition: all .3s;
 
   &:focus {
-    border: 1px solid #7bc1f7;
+    border: 1px solid #7bc1f7 !important;
     box-shadow: 0px 0px 8px #7bc1f7;
   }
 }

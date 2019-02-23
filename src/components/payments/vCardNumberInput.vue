@@ -1,34 +1,42 @@
 <template>
   <div class="card-number-input">
     <input
-      class="card-number-input__field dark-text"
+      :class="{
+        'card-number-input__field': true, 
+        'dark-text' : true,
+        'invalid': invalid
+      }"
       type="text"
       v-for="index in 4"
       :key="index"
-      :value="cardNumber.slice((index - 1) * 4, index * 4)"
+      :value="number.slice((index - 1) * 4, index * 4)"
       @keydown.delete.prevent="deleteChar"
-      @keypress.prevent="checkThisPart"
-      v-focus="cardNumber.length > 4 * (index - 1) && cardNumber.length <= 4 * index"
+      @keypress.prevent="changeValue"
+      v-focus="number.length > 4 * (index - 1) && number.length <= 4 * index"
     >
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+
 export default {
   name: "vCardNumberInput",
-  data() {
-    return {
-      cardNumber: ""
-    };
+  computed: {
+    ...mapState({
+      number: state => state.cardNumber,
+      invalid: state => state.invalidCardNumber
+    })
   },
   methods: {
-    checkThisPart(event) {
-      if (isNaN(parseFloat(event.key)) || this.cardNumber.length >= 16) return;
+    ...mapMutations(["ADD_CARD_NUMBER_CHAR", "REMOVE_CARD_NUMBER_CHAR"]),
 
-      this.cardNumber += event.key;
+    changeValue(event) {
+      if (!isNaN(parseFloat(event.key)) && this.number.length < 16)
+        this.ADD_CARD_NUMBER_CHAR(event.key);
     },
     deleteChar() {
-      this.cardNumber = this.cardNumber.slice(0, this.cardNumber.length - 1);
+      this.REMOVE_CARD_NUMBER_CHAR();
     }
   },
   directives: {
@@ -53,13 +61,14 @@ export default {
     color: transparent;
     text-shadow: 0 0 0 black;
     text-align: center;
+    transition: all .3s;
 
     &:not(:last-child) {
       margin-right: 9px;
     }
 
     &:focus {
-      border: 1px solid #7bc1f7;
+      border: 1px solid #7bc1f7 !important;
       box-shadow: 0px 0px 8px #7bc1f7;
     }
   }

@@ -84,4 +84,9 @@ p {
 .dark-text {
   color: #373c43;
 }
+
+.invalid {
+  border: 1px solid #fab1a0 !important;
+  box-shadow: 0px 0px 8px #fab1a0;
+}
 </style>

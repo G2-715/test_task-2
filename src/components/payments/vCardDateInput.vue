@@ -1,33 +1,32 @@
 <template>
   <div
     class="card-date-input"
-    @click="openSelection"
     :style="{width: `${width}px`}"
   >
+    <span
+      class="card-date-input__value dark-text"
+      @mousedown="focused = true"
+    >{{ value | twoNumbers }}</span>
     <img
       class="card-date-input__arrow"
       src="../../assets/baseline-keyboard_arrow_down-24px.svg"
       alt="arrow"
+      @mousedown="focused = true"
     >
-    <input
-      class="card-date-input__value dark-text"
-      :value="value | twoNumbers"
-      @keydown.prevent="() => {}"
-      @blur="selectItem(choosen)"
-      v-focus="focused"
-    >
-    <ul
-      class="card-date-input__list"
-      v-show="focused"
-    >
-      <li
-        class="card-date-input__list-item dark-text"
-        v-for="item in list"
-        :key="item"
-        @mouseleave="changeChoosen(value)"
-        @mouseover="changeChoosen(item)"
-      >{{ item | twoNumbers }}</li>
-    </ul>
+    <transition name="fade">
+      <ul
+        class="card-date-input__list"
+        v-show="focused"
+        @mouseleave="focused = false"
+      >
+        <li
+          class="card-date-input__list-item dark-text"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="selectItem(item)"
+        >{{ item | twoNumbers }}</li>
+      </ul>
+    </transition>
   </div>
 </template>
 
@@ -47,23 +46,13 @@ export default {
   data() {
     return {
       focused: false,
-      value: this.list.slice(0, 1),
-      choosen: "1"
+      value: this.list[0]
     };
   },
   methods: {
-    closeSelection() {
-      this.focused = false;
-    },
-    openSelection() {
-      this.focused = true;
-    },
     selectItem(value) {
       this.value = value;
-      this.closeSelection();
-    },
-    changeChoosen(val) {
-      this.choosen = val;
+      this.focused = false;
     }
   },
   filters: {
@@ -83,57 +72,53 @@ export default {
 
 <style lang="scss" scoped>
 .card-date-input {
-  display: flex;
   position: relative;
-  background-color: #fff;
-  text-align: center;
+  padding: 9px 0px 9px 15px;
+  border: 1px solid #e4e9ee;
+  background-color: #ffffff;
+  box-sizing: border-box;
   margin-right: 9px;
+  height: 41px;
+  cursor: pointer;
 
   &__value {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 9px 0px 9px 15px;
+    height: 100%;
     width: 100%;
-    text-align: center;
-    padding: 10px 30px 10px 15px;
-    border: 1px solid #e4e9ee;
-    outline: none;
-    cursor: pointer;
-    color: transparent;
-    text-shadow: 0 0 0 black;
-
-    &:focus {
-      border: 1px solid #7bc1f7;
-      box-shadow: 0px 0px 8px #7bc1f7;
-    }
   }
 
   &__arrow {
     position: absolute;
     top: 50%;
     right: 5px;
+    width: 25px;
+    height: 25px;
     transform: translateY(-50%);
-    cursor: pointer;
   }
 
   &__list {
     margin: 0;
     padding: 0;
-    position: absolute;
     width: 100%;
+    position: absolute;
     top: -1px;
     left: -1px;
     list-style: none;
-    background-color: #fff;
-    border: 1px solid #e4e9ee;
     max-height: 150px;
     overflow-y: scroll;
+    border: 1px solid #e4e9ee;
 
     &-item {
-      padding: 6px;
-      transition: 0.1s;
-      cursor: pointer;
+      padding: 8px 15px;
+      background-color: #fff;
+      transition: all 0.1s;
 
       &:hover {
-        background-color: #3498db;
         color: #ffffff;
+        background-color: #3498db;
       }
     }
   }
@@ -145,7 +130,7 @@ export default {
 }
 .fade-enter,
 .fade-leave-to {
-  transform: translateY(-10px);
-  visibility: none;
+  opacity: 0;
+  transform: scale(0);
 }
 </style>
