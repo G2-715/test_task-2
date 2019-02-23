@@ -32,7 +32,7 @@ export default {
   padding: 0;
 
   &__tab {
-    padding: 30px;
+    padding: 29px;
     color: #ffffff;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
     font-family: "Open Sans";

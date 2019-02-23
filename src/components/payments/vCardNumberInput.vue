@@ -23,15 +23,12 @@ export default {
   },
   methods: {
     checkThisPart(event) {
-      if (isNaN(event.key) || this.cardNumber.length >= 16) return;
+      if (isNaN(parseFloat(event.key)) || this.cardNumber.length >= 16) return;
 
       this.cardNumber += event.key;
     },
     deleteChar() {
       this.cardNumber = this.cardNumber.slice(0, this.cardNumber.length - 1);
-    },
-    update() {
-      this.$forceUpdate();
     }
   },
   directives: {
@@ -46,10 +43,6 @@ export default {
 
 <style lang="scss" scoped>
 .card-number-input {
-  width: 290px;
-  display: flex;
-  justify-content: space-between;
-
   &__field {
     width: 65px;
     padding: 9px;
@@ -60,6 +53,10 @@ export default {
     color: transparent;
     text-shadow: 0 0 0 black;
     text-align: center;
+
+    &:not(:last-child) {
+      margin-right: 9px;
+    }
 
     &:focus {
       border: 1px solid #7bc1f7;
