@@ -89,4 +89,9 @@ p {
   border: 1px solid #fab1a0 !important;
   box-shadow: 0px 0px 8px #fab1a0;
 }
+
+.invalid-bottom {
+  border-bottom: 1px solid #fab1a0 !important;
+  box-shadow: inset 0px -2px 5px -4px rgba(250,177,160,1);
+}
 </style>

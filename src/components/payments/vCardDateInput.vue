@@ -88,6 +88,7 @@ export default {
     padding: 9px 0px 9px 15px;
     height: 100%;
     width: 100%;
+    box-sizing: border-box;
   }
 
   &__arrow {
