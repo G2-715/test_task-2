@@ -6,7 +6,7 @@
     <span
       class="card-date-input__value dark-text"
       @mousedown="focused = true"
-    >{{ value | twoNumbers }}</span>
+    >{{ value ? value : list[0] | twoNumbers }}</span>
     <img
       class="card-date-input__arrow"
       src="../../assets/baseline-keyboard_arrow_down-24px.svg"
@@ -41,17 +41,20 @@ export default {
     width: {
       type: Number,
       required: true
+    },
+    value: {
+      type: String,
+      required: true
     }
   },
   data() {
     return {
-      focused: false,
-      value: this.list[0]
+      focused: false
     };
   },
   methods: {
     selectItem(value) {
-      this.value = value;
+      this.$emit('select', value);
       this.focused = false;
     }
   },

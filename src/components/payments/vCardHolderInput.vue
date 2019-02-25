@@ -18,12 +18,12 @@ export default {
   name: "vCardHolderInput",
   data() {
     return {
-      value: "",
       placeholder: "Держатель карты"
     };
   },
   computed: {
     ...mapState({
+      value: state => state.cardHolder,
       invalid: state => state.invalidCardHolder
     })
   },
@@ -32,18 +32,18 @@ export default {
 
     addChar({ key }) {
       if (/[a-zA-Z ]/.test(key)) {
-        if (key === " ") this.value = this.value.trim();
+        let copyValue = this.value;
+        
+        if (key === " ") copyValue = copyValue.trim();
 
-        this.value += key.toUpperCase();
-        this.CHANGE_CARD_HOLDER(this.value);
+        this.CHANGE_CARD_HOLDER(copyValue + key.toUpperCase());
         if (this.invalid) this.SET_VALID_CARD_HOLDER();
       }
     },
 
     removeChar() {
       if (this.value) {
-        this.value = this.value.slice(0, -1);
-        this.CHANGE_CARD_HOLDER(this.value);
+        this.CHANGE_CARD_HOLDER(this.value.slice(0, -1));
         if (this.invalid) this.SET_VALID_CARD_HOLDER();
       }
     }

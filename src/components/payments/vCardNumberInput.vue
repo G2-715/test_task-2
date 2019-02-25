@@ -26,12 +26,12 @@ export default {
   name: "vCardNumberInput",
   data() {
     return {
-      number: "",
       placeholder: "0000"
     };
   },
   computed: {
     ...mapState({
+      number: state => state.cardNumber,
       invalid: state => state.invalidCardNumber
     })
   },
@@ -43,20 +43,21 @@ export default {
     },
 
     isRightLength(index) {
-      return this.number.length > 4 * (index - 1) && this.number.length <= 4 * index;
+      return (
+        this.number.length > 4 * (index - 1) && this.number.length <= 4 * index
+      );
     },
 
     addChar({ key }) {
       if (isNumber(key) && this.number.length < 16) {
-        this.number += key;
-        this.CHANGE_CARD_NUMBER(this.number);
+        this.CHANGE_CARD_NUMBER(this.number + key);
         if (this.invalid) this.SET_VALID_CARD_NUMBER();
       }
     },
+
     removeChar() {
       if (this.number) {
-        this.number = this.number.slice(0, -1);
-        this.CHANGE_CARD_NUMBER(this.number);
+        this.CHANGE_CARD_NUMBER(this.number.slice(0, -1));
         if (this.invalid) this.SET_VALID_CARD_NUMBER();
       }
     }
@@ -81,9 +82,9 @@ export default {
     background-color: #fff;
     outline: none;
     color: transparent;
-    text-shadow: 0 0 0 black;
     text-align: center;
     transition: all 0.3s;
+    text-shadow: 0 0 0 #373c43;
 
     &:not(:last-child) {
       margin-right: 9px;

@@ -7,9 +7,9 @@
         <td>
           <v-payments-info-input
             :value="accountNumber"
+            placeholder="Введите номер"
             :maxLength="14"
             :invalid="invalidAccountNumber"
-            placeholder="Введите номер"
             @change="changeAccountNumber"
           />
         </td>
@@ -19,9 +19,9 @@
         <td>
           <v-payments-info-input
             :value="paymentAmount"
+            placeholder="Введите сумму"
             :maxLength="5"
             :invalid="invalidPaymentAmount"
-            placeholder="Введите сумму"
             @change="changePaymentAmount"
           />
           <span v-show="paymentAmount" class="dark-text">руб.</span>

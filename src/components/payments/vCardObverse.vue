@@ -9,11 +9,15 @@
       <div class="card-obverse__date-wrapper">
         <v-card-date-input
           :list="getAllMonths()"
+          :value="cardMonth"
           :width="70"
+          @select="changeMonth"
         />
         <v-card-date-input
           :list="getAllYears()"
+          :value="cardYear"
           :width="85"
+          @select="changeYear"
         />
       </div>
     </div>
@@ -27,21 +31,39 @@
 import vCardNumberInput from "./vCardNumberInput";
 import vCardDateInput from "./vCardDateInput";
 import vCardHolderInput from "./vCardHolderInput";
+import { isNumber } from "../../helpers";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "vCardObverse",
+  computed: {
+    ...mapState({
+      cardMonth: state => state.cardMonth,
+      cardYear: state => state.cardYear
+    })
+  },
   components: {
     "v-card-number-input": vCardNumberInput,
     "v-card-date-input": vCardDateInput,
     "v-card-holder-input": vCardHolderInput
   },
   methods: {
+    ...mapMutations(["CHANGE_CARD_MONTH", "CHANGE_CARD_YEAR"]),
+
     getAllMonths() {
-      return Array.from(new Array(12), (x, i) => i + 1);
+      return Array.from(new Array(12), (x, i) => (i + 1).toString());
     },
     getAllYears() {
       const now = new Date();
-      return Array.from(new Array(50), (x, i) => i + now.getUTCFullYear());
+      return Array.from(new Array(50), (x, i) => (i + now.getFullYear()).toString());
+    },
+    changeMonth(value) {
+      if (isNumber(value) && value >= 1 && value <= 12)
+        this.CHANGE_CARD_MONTH(value);
+    },
+    changeYear(value) {
+      if (isNumber(value) && value.length === 4) 
+        this.CHANGE_CARD_YEAR(value);
     }
   }
 };

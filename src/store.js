@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const uuidv1 = require('uuid/v1');
+import uuidv1 from 'uuid/v1';
+import { getNormalDateTime } from './helpers';
 
 export default new Vuex.Store({
   state: {
@@ -11,6 +12,8 @@ export default new Vuex.Store({
     paymentAmount: "",
 
     cardNumber: "",
+    cardMonth: "",
+    cardYear: "",
     cardHolder: "",
     cardCode: "",
 
@@ -35,14 +38,17 @@ export default new Vuex.Store({
     CHANGE_CARD_NUMBER(state, value) {
       state.cardNumber = value;
     },
+    CHANGE_CARD_MONTH(state, value) {
+      state.cardMonth = value;
+    },
+    CHANGE_CARD_YEAR(state, value) {
+      state.cardYear = value;
+    },
     CHANGE_CARD_HOLDER(state, value) {
       state.cardHolder = value;
     },
-    ADD_CARD_CODE_CHAR(state, char) {
-      state.cardCode += char;
-    },
-    REMOVE_CARD_CODE_CHAR(state) {
-      state.cardCode = state.cardCode.slice(0, state.cardCode.length - 1);
+    CHANGE_CARD_CODE(state, value) {
+      state.cardCode = value;
     },
 
     SET_INVALID_CARD_NUMBER(state) {
@@ -75,14 +81,8 @@ export default new Vuex.Store({
     SET_VALID_PAYMENT_AMOUNT(state) {
       state.invalidPaymentAmount = false;
     },
-
     UPDATE_DATE(state) {
-      const now = new Date();
-      const td = (val) => ('0' + val).slice(-2);
-
-      state.date =
-        `${td(now.getDate())}-${td(now.getMonth() + 1)}-${now.getFullYear()} ` +
-        `${td(now.getHours())}:${td(now.getMinutes())}:${td(now.getSeconds())}`;
+      state.date = getNormalDateTime();
     },
     SET_TOKEN(state) {
       state.token = uuidv1();

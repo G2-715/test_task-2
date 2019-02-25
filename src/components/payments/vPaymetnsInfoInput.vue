@@ -19,12 +19,11 @@ import { isNumber } from "../../helpers.js";
 
 export default {
   name: "vPaymetnsInfoInput",
-  data() {
-    return {
-      value: ""
-    };
-  },
   props: {
+    value: {
+      type: String,
+      required: true
+    },
     maxLength: {
       type: Number,
       required: true
@@ -41,16 +40,12 @@ export default {
   },
   methods: {
     addChar({ key }) {
-      if (isNumber(key) && this.value.length < this.maxLength) {
-        this.value += key;
-        this.$emit('change', this.value);
-      }
+      if (isNumber(key) && this.value.length < this.maxLength)
+        this.$emit("change", this.value + key);
     },
     removeChar() {
-      if (this.value) {
-        this.value = this.value.slice(0, -1);
-        this.$emit('change', this.value);
-      }
+      if (this.value) 
+        this.$emit("change", this.value.slice(0, -1));
     }
   }
 };

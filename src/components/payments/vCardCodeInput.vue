@@ -4,13 +4,13 @@
       :class="{
         'gray-text': true,
         'card-code-input__value': true,
-        'invalid': invalid
+        'invalid': invalid,
+        'placeholder': !value
       }"
-      :style="{textShadow: value.length ? '0 0 0 #373c43' : '0 0 0 #bec6cf'}"
-      :value="value.length ? value : placeholder"
-      @keydown.delete.prevent="deleteChar"
-      @keypress.prevent="changeValue"
       type="text"
+      :value="value ? value : placeholder"
+      @keydown.delete.prevent="removeChar"
+      @keypress.prevent="addChar"
     >
     <img
       class="card-code-input__icon"
@@ -22,6 +22,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import { isNumber } from "../../helpers";
 
 export default {
   name: "vCardCodeInput",
@@ -37,14 +38,18 @@ export default {
     })
   },
   methods: {
-    ...mapMutations(["ADD_CARD_CODE_CHAR", "REMOVE_CARD_CODE_CHAR"]),
+    ...mapMutations(["CHANGE_CARD_CODE", "SET_VALID_CARD_CODE"]),
 
-    changeValue(event) {
-      if (!isNaN(parseFloat(event.key)) && this.value.length < 3)
-        this.ADD_CARD_CODE_CHAR(event.key);
+    addChar({ key }) {
+      if (isNumber(key) && this.value.length < 3) {
+        this.CHANGE_CARD_CODE(this.value + key);
+        if (this.invalid) this.SET_VALID_CARD_CODE();
+      }
     },
-    deleteChar() {
-      this.REMOVE_CARD_CODE_CHAR();
+
+    removeChar() {
+      this.CHANGE_CARD_CODE(this.value.slice(0, -1));
+      if (this.invalid) this.SET_VALID_CARD_CODE();
     }
   }
 };
@@ -61,7 +66,8 @@ export default {
     border: 1px solid #e4e9ee;
     box-sizing: border-box;
     color: transparent;
-    transition: all .2s;
+    transition: all 0.2s;
+    text-shadow: 0 0 0 #373c43;
 
     &:focus {
       border: 1px solid #7bc1f7 !important;
