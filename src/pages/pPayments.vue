@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import vPaymentsInfo from '../components/payments/vPaymentsInfo';
+import vPaymentsInfo from "../components/payments/vPaymentsInfo";
 import vPaymentsCards from "../components/payments/vPaymentsCards";
 import vButton from "../components/vButton";
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
   name: "pPayments",
@@ -23,12 +23,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      validate: "validateAll"
-    })
+      validateAll: "validateAll"
+    }),
+
+    validate() {
+      this.validateAll().then(res => {
+        if (res) this.$router.push("/successful");
+      });
+    }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>

@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <c-container>
-      <c-aside>
-        <v-aside />
-      </c-aside>
+    <div class="background">
+      <c-container>
+        <c-aside>
+          <v-aside />
+        </c-aside>
 
-      <c-content>
-        <c-content-wrapper>
-          <router-view />
-        </c-content-wrapper>
+        <c-content>
+          <c-content-wrapper>
+            <router-view />
+          </c-content-wrapper>
 
-        <v-footer />
-      </c-content>
-    </c-container>
+          <v-footer />
+        </c-content>
+      </c-container>
+    </div>
   </div>
 </template>
 
@@ -62,6 +64,7 @@ export default {
 }
 
 #app {
+  position: relative;
   background-color: #101114;
   min-height: 100vh;
 }
@@ -90,8 +93,11 @@ p {
   box-shadow: 0px 0px 8px #fab1a0;
 }
 
-.invalid-bottom {
-  border-bottom: 1px solid #fab1a0 !important;
-  box-shadow: inset 0px -2px 5px -4px rgba(250,177,160,1);
+.invalid-info {
+  color: #fab1a0 !important;
+}
+
+.placeholder {
+  text-shadow: 0 0 0 #bec6cf !important;
 }
 </style>

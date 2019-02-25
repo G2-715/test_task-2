@@ -1,42 +1,64 @@
 <template>
   <div class="card-number-input">
     <input
+      v-for="i in 4"
+      :key="i"
       :class="{
         'card-number-input__field': true, 
         'dark-text' : true,
-        'invalid': invalid
+        'invalid': invalid,
+        'placeholder': !getNumberPart(i)
       }"
       type="text"
-      v-for="index in 4"
-      :key="index"
-      :value="number.slice((index - 1) * 4, index * 4)"
-      @keydown.delete.prevent="deleteChar"
-      @keypress.prevent="changeValue"
-      v-focus="number.length > 4 * (index - 1) && number.length <= 4 * index"
+      @keydown.delete.prevent="removeChar"
+      @keypress.prevent="addChar"
+      :value="getNumberPart(i) ? getNumberPart(i) : placeholder"
+      v-focus="isRightLength(i)"
     >
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import { isNumber } from "../../helpers";
 
 export default {
   name: "vCardNumberInput",
+  data() {
+    return {
+      number: "",
+      placeholder: "0000"
+    };
+  },
   computed: {
     ...mapState({
-      number: state => state.cardNumber,
       invalid: state => state.invalidCardNumber
     })
   },
   methods: {
-    ...mapMutations(["ADD_CARD_NUMBER_CHAR", "REMOVE_CARD_NUMBER_CHAR"]),
+    ...mapMutations(["CHANGE_CARD_NUMBER", "SET_VALID_CARD_NUMBER"]),
 
-    changeValue(event) {
-      if (!isNaN(parseFloat(event.key)) && this.number.length < 16)
-        this.ADD_CARD_NUMBER_CHAR(event.key);
+    getNumberPart(index) {
+      return this.number.slice((index - 1) * 4, index * 4);
     },
-    deleteChar() {
-      this.REMOVE_CARD_NUMBER_CHAR();
+
+    isRightLength(index) {
+      return this.number.length > 4 * (index - 1) && this.number.length <= 4 * index;
+    },
+
+    addChar({ key }) {
+      if (isNumber(key) && this.number.length < 16) {
+        this.number += key;
+        this.CHANGE_CARD_NUMBER(this.number);
+        if (this.invalid) this.SET_VALID_CARD_NUMBER();
+      }
+    },
+    removeChar() {
+      if (this.number) {
+        this.number = this.number.slice(0, -1);
+        this.CHANGE_CARD_NUMBER(this.number);
+        if (this.invalid) this.SET_VALID_CARD_NUMBER();
+      }
     }
   },
   directives: {
@@ -61,7 +83,7 @@ export default {
     color: transparent;
     text-shadow: 0 0 0 black;
     text-align: center;
-    transition: all .3s;
+    transition: all 0.3s;
 
     &:not(:last-child) {
       margin-right: 9px;

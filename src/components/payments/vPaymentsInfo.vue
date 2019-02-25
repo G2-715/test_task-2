@@ -5,26 +5,26 @@
       <tr>
         <td class="gray-text payments-info__table-keytext">Номер счета:</td>
         <td>
-          <v-card-info-input
+          <v-payments-info-input
             :value="accountNumber"
             :maxLength="14"
             :invalid="invalidAccountNumber"
-            @change="ADD_ACCOUNT_NUMBER_CHAR"
-            @remove="REMOVE_ACCOUNT_NUMBER_CHAR"
+            placeholder="Введите номер"
+            @change="changeAccountNumber"
           />
         </td>
       </tr>
       <tr>
         <td class="gray-text payments-info__table-keytext">Сумма платежа:</td>
         <td>
-          <v-card-info-input
+          <v-payments-info-input
             :value="paymentAmount"
             :maxLength="5"
             :invalid="invalidPaymentAmount"
-            @change="ADD_PAYMENT_AMOUNT_CHAR"
-            @remove="REMOVE_PAYMENT_AMOUNT_CHAR"
+            placeholder="Введите сумму"
+            @change="changePaymentAmount"
           />
-          <span class="dark-text">руб.</span>
+          <span v-show="paymentAmount" class="dark-text">руб.</span>
         </td>
       </tr>
     </table>
@@ -34,12 +34,12 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 
-import vCardInfoInput from "./vCardInfoInput";
+import vPaymetnsInfoInput from "./vPaymetnsInfoInput";
 
 export default {
   name: "vPaymentsInfo",
   components: {
-    "v-card-info-input": vCardInfoInput
+    "v-payments-info-input": vPaymetnsInfoInput
   },
   computed: {
     ...mapState({
@@ -51,11 +51,24 @@ export default {
   },
   methods: {
     ...mapMutations([
-      "ADD_ACCOUNT_NUMBER_CHAR",
-      "REMOVE_ACCOUNT_NUMBER_CHAR",
-      "ADD_PAYMENT_AMOUNT_CHAR",
-      "REMOVE_PAYMENT_AMOUNT_CHAR"
-    ])
+      "SET_VALID_ACCOUNT_NUMBER",
+      "SET_VALID_PAYMENT_AMOUNT",
+      "CHANGE_ACCOUNT_NUMBER",
+      "CHANGE_PAYMENT_AMOUNT",
+    ]),
+
+    changeAccountNumber(value) {
+      if (this.invalidAccountNumber)
+        this.SET_VALID_ACCOUNT_NUMBER();
+
+      this.CHANGE_ACCOUNT_NUMBER(value);
+    },
+    changePaymentAmount(value) {
+      if (this.invalidPaymentAmount)
+        this.SET_VALID_PAYMENT_AMOUNT();
+        
+      this.CHANGE_PAYMENT_AMOUNT(value);
+    }
   }
 };
 </script>

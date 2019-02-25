@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const uuidv1 = require('uuid/v1');
+
 export default new Vuex.Store({
   state: {
     accountNumber: "",
@@ -16,32 +18,25 @@ export default new Vuex.Store({
     invalidPaymentAmount: false,
     invalidCardNumber: false,
     invalidCardHolder: false,
-    invalidCardCode: false
+    invalidCardCode: false,
+
+    token: "",
+    date: "",
+
+    history: []
   },
   mutations: {
-    ADD_ACCOUNT_NUMBER_CHAR(state, char) {
-      state.accountNumber += char;
+    CHANGE_ACCOUNT_NUMBER(state, value) {
+      state.accountNumber = value;
     },
-    REMOVE_ACCOUNT_NUMBER_CHAR(state) {
-      state.accountNumber = state.accountNumber.slice(0, state.accountNumber.length - 1);
+    CHANGE_PAYMENT_AMOUNT(state, value) {
+      state.paymentAmount = value;
     },
-    ADD_PAYMENT_AMOUNT_CHAR(state, char) {
-      state.paymentAmount += char;
+    CHANGE_CARD_NUMBER(state, value) {
+      state.cardNumber = value;
     },
-    REMOVE_PAYMENT_AMOUNT_CHAR(state) {
-      state.paymentAmount = state.paymentAmount.slice(0, state.paymentAmount.length - 1);
-    },
-    ADD_CARD_NUMBER_CHAR(state, char) {
-      state.cardNumber += char;
-    },
-    REMOVE_CARD_NUMBER_CHAR(state) {
-      state.cardNumber = state.cardNumber.slice(0, state.cardNumber.length - 1);
-    },
-    ADD_CARD_HOLDER_CHAR(state, char) {
-      state.cardHolder += char;
-    },
-    REMOVE_CARD_HOLDER_CHAR(state) {
-      state.cardHolder = state.cardHolder.slice(0, state.cardHolder.length - 1);
+    CHANGE_CARD_HOLDER(state, value) {
+      state.cardHolder = value;
     },
     ADD_CARD_CODE_CHAR(state, char) {
       state.cardCode += char;
@@ -79,17 +74,73 @@ export default new Vuex.Store({
     },
     SET_VALID_PAYMENT_AMOUNT(state) {
       state.invalidPaymentAmount = false;
+    },
+
+    UPDATE_DATE(state) {
+      const now = new Date();
+      const td = (val) => ('0' + val).slice(-2);
+
+      state.date =
+        `${td(now.getDate())}-${td(now.getMonth() + 1)}-${now.getFullYear()} ` +
+        `${td(now.getHours())}:${td(now.getMinutes())}:${td(now.getSeconds())}`;
+    },
+    SET_TOKEN(state) {
+      state.token = uuidv1();
+    },
+    RESET_ALL(state) {
+      state.accountNumber = "";
+      state.paymentAmount = "";
+
+      state.cardNumber = "";
+      state.cardHolder = "";
+      state.cardCode = "";
+
+      state.invalidAccountNumber = false;
+      state.invalidPaymentAmount = false;
+      state.invalidCardNumber = false;
+      state.invalidCardHolder = false;
+      state.invalidCardCode = false;
+
+      state.token = "";
+      state.date = "";
+    },
+    ADD_TO_HISTORY(state) {
+      state.history.push({
+        sum: state.paymentAmount,
+        number: state.accountNumber,
+        date: state.date
+      })
     }
   },
   actions: {
-    async validateAll({ dispatch }) {
-      await (() => {
-        dispatch("validateAccountNumber");
-        dispatch("validatePaymentAmount");
-        dispatch("validateCardNumber");
-        dispatch("validateCardHolder");
-        dispatch("validateCardCode");
-      })();
+    async validateAll({ dispatch, commit }) {
+      await dispatch("validateAccountNumber");
+      await dispatch("validatePaymentAmount");
+      await dispatch("validateCardNumber");
+      await dispatch("validateCardHolder");
+      await dispatch("validateCardCode");
+
+      const {
+        invalidAccountNumber,
+        invalidPaymentAmount,
+        invalidCardNumber,
+        invalidCardHolder,
+        invalidCardCode
+      } = this.state
+
+      if (
+        invalidAccountNumber ||
+        invalidPaymentAmount ||
+        invalidCardNumber ||
+        invalidCardHolder ||
+        invalidCardCode
+      ) return false;
+
+      await commit("UPDATE_DATE");
+      await commit("SET_TOKEN");
+      await commit("ADD_TO_HISTORY");
+
+      return true;
     },
 
     validateAccountNumber({ commit }) {

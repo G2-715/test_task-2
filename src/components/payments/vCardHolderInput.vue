@@ -2,12 +2,12 @@
   <input
     :class="{
       'card-holder-input': true,
-      'invalid': invalid
+      'invalid': invalid,
+      'placeholder': !value
     }"
-    :style="{textShadow: value.length ? '0 0 0 #373c43' : '0 0 0 #bec6cf'}"
-    :value="value.length ? value : placeholder"
-    @keydown.delete.prevent="deleteChar"
-    @keypress.prevent="changeValue"
+    :value="value ? value : placeholder"
+    @keydown.delete.prevent="removeChar"
+    @keypress.prevent="addChar"
   >
 </template>
 
@@ -18,27 +18,34 @@ export default {
   name: "vCardHolderInput",
   data() {
     return {
+      value: "",
       placeholder: "Держатель карты"
     };
   },
   computed: {
     ...mapState({
-      value: state => state.cardHolder,
       invalid: state => state.invalidCardHolder
     })
   },
   methods: {
-    ...mapMutations([
-      "ADD_CARD_HOLDER_CHAR",
-      "REMOVE_CARD_HOLDER_CHAR"
-    ]),
+    ...mapMutations(["CHANGE_CARD_HOLDER", "SET_VALID_CARD_HOLDER"]),
 
-    changeValue(event) {
-      if (/[a-zA-Z]/.test(event.key) || event.key === " ")
-        this.ADD_CARD_HOLDER_CHAR(event.key.toUpperCase());
+    addChar({ key }) {
+      if (/[a-zA-Z ]/.test(key)) {
+        if (key === " ") this.value = this.value.trim();
+
+        this.value += key.toUpperCase();
+        this.CHANGE_CARD_HOLDER(this.value);
+        if (this.invalid) this.SET_VALID_CARD_HOLDER();
+      }
     },
-    deleteChar() {
-      this.REMOVE_CARD_HOLDER_CHAR();
+
+    removeChar() {
+      if (this.value) {
+        this.value = this.value.slice(0, -1);
+        this.CHANGE_CARD_HOLDER(this.value);
+        if (this.invalid) this.SET_VALID_CARD_HOLDER();
+      }
     }
   },
   filters: {
@@ -60,7 +67,8 @@ export default {
   font-weight: 400;
   padding: 11px 13px;
   box-sizing: border-box;
-  transition: all .3s;
+  transition: all 0.3s;
+  text-shadow: 0 0 0 #373c43;
 
   &:focus {
     border: 1px solid #7bc1f7 !important;
