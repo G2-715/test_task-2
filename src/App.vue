@@ -8,7 +8,9 @@
 
         <c-content>
           <c-content-wrapper>
-            <router-view />
+            <transition name="fade" mode="out-in">
+              <router-view />
+            </transition>
           </c-content-wrapper>
 
           <v-footer />
@@ -99,5 +101,13 @@ p {
 
 .placeholder {
   text-shadow: 0 0 0 #bec6cf !important;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all .5s;
+}
+.fade-enter, .fade-leave-to {
+  transform: translateX(calc(-100% - 45px));
+  opacity: 0;
 }
 </style>

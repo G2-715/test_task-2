@@ -24,7 +24,7 @@ export default {
   computed: {
     ...mapState({
       value: state => state.cardHolder,
-      invalid: state => state.invalidCardHolder
+      invalid: state => state.invalid.CardHolder
     })
   },
   methods: {

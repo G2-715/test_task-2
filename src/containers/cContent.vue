@@ -12,6 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 .c-content {
+  overflow: hidden;
   width: 640px;
 }
 </style>

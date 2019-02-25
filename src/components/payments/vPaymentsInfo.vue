@@ -45,8 +45,8 @@ export default {
     ...mapState({
       accountNumber: state => state.accountNumber,
       paymentAmount: state => state.paymentAmount,
-      invalidAccountNumber: state => state.invalidAccountNumber,
-      invalidPaymentAmount: state => state.invalidPaymentAmount
+      invalidAccountNumber: state => state.invalid.AccountNumber,
+      invalidPaymentAmount: state => state.invalid.PaymentAmount
     })
   },
   methods: {

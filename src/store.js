@@ -17,16 +17,59 @@ export default new Vuex.Store({
     cardHolder: "",
     cardCode: "",
 
-    invalidAccountNumber: false,
-    invalidPaymentAmount: false,
-    invalidCardNumber: false,
-    invalidCardHolder: false,
-    invalidCardCode: false,
+    invalid: {
+      AccountNumber: false,
+      PaymentAmount: false,
+      CardNumber: false,
+      CardHolder: false,
+      CardCode: false,
+    },
 
     token: "",
     date: "",
 
-    history: []
+    history: [
+      {
+        date: "25-02-2019 13:50:22",
+        number: "2321321",
+        sum: "21312",
+      },
+      {
+        date: "25-02-2019 13:50:22",
+        number: "2321321",
+        sum: "21312",
+      },
+      {
+        date: "25-02-2019 13:50:22",
+        number: "2321321",
+        sum: "21312",
+      },
+      {
+        date: "25-02-2019 13:50:22",
+        number: "2321321",
+        sum: "21312",
+      },
+      {
+        date: "25-02-2019 13:50:22",
+        number: "2321321",
+        sum: "21312",
+      },
+      {
+        date: "25-02-2019 13:50:22",
+        number: "2321321",
+        sum: "21312",
+      },
+      {
+        date: "25-02-2019 13:50:22",
+        number: "2321321",
+        sum: "21312",
+      },
+      {
+        date: "25-02-2019 13:50:22",
+        number: "2321321",
+        sum: "21312",
+      }
+    ]
   },
   mutations: {
     CHANGE_ACCOUNT_NUMBER(state, value) {
@@ -52,34 +95,34 @@ export default new Vuex.Store({
     },
 
     SET_INVALID_CARD_NUMBER(state) {
-      state.invalidCardNumber = true;
+      state.invalid.CardNumber = true;
     },
     SET_VALID_CARD_NUMBER(state) {
-      state.invalidCardNumber = false;
+      state.invalid.CardNumber = false;
     },
     SET_INVALID_CARD_HOLDER(state) {
-      state.invalidCardHolder = true;
+      state.invalid.CardHolder = true;
     },
     SET_VALID_CARD_HOLDER(state) {
-      state.invalidCardHolder = false;
+      state.invalid.CardHolder = false;
     },
     SET_INVALID_CARD_CODE(state) {
-      state.invalidCardCode = true;
+      state.invalid.CardCode = true;
     },
     SET_VALID_CARD_CODE(state) {
-      state.invalidCardCode = false;
+      state.invalid.CardCode = false;
     },
     SET_INVALID_ACCOUNT_NUMBER(state) {
-      state.invalidAccountNumber = true;
+      state.invalid.AccountNumber = true;
     },
     SET_VALID_ACCOUNT_NUMBER(state) {
-      state.invalidAccountNumber = false;
+      state.invalid.AccountNumber = false;
     },
     SET_INVALID_PAYMENT_AMOUNT(state) {
-      state.invalidPaymentAmount = true;
+      state.invalid.PaymentAmount = true;
     },
     SET_VALID_PAYMENT_AMOUNT(state) {
-      state.invalidPaymentAmount = false;
+      state.invalid.PaymentAmount = false;
     },
     UPDATE_DATE(state) {
       state.date = getNormalDateTime();
@@ -94,12 +137,10 @@ export default new Vuex.Store({
       state.cardNumber = "";
       state.cardHolder = "";
       state.cardCode = "";
+      state.cardMonth = "";
+      state.cardYear = "";
 
-      state.invalidAccountNumber = false;
-      state.invalidPaymentAmount = false;
-      state.invalidCardNumber = false;
-      state.invalidCardHolder = false;
-      state.invalidCardCode = false;
+      Object.keys(state.invalid).map(key => state.invalid[key] = false);
 
       state.token = "";
       state.date = "";
@@ -113,28 +154,16 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async validateAll({ dispatch, commit }) {
+    async validateAll({ dispatch, state, commit }) {
       await dispatch("validateAccountNumber");
       await dispatch("validatePaymentAmount");
       await dispatch("validateCardNumber");
       await dispatch("validateCardHolder");
       await dispatch("validateCardCode");
 
-      const {
-        invalidAccountNumber,
-        invalidPaymentAmount,
-        invalidCardNumber,
-        invalidCardHolder,
-        invalidCardCode
-      } = this.state
+      if (Object.values(state.invalid).some((val) => val)) return false;
 
-      if (
-        invalidAccountNumber ||
-        invalidPaymentAmount ||
-        invalidCardNumber ||
-        invalidCardHolder ||
-        invalidCardCode
-      ) return false;
+      // return false;
 
       await commit("UPDATE_DATE");
       await commit("SET_TOKEN");

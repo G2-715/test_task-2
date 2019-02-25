@@ -32,7 +32,7 @@ export default {
   computed: {
     ...mapState({
       number: state => state.cardNumber,
-      invalid: state => state.invalidCardNumber
+      invalid: state => state.invalid.CardNumber
     })
   },
   methods: {

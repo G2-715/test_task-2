@@ -8,7 +8,7 @@
       </tr>
       <tr>
         <td class="gray-text successful__keytext">Сумма платежа:</td>
-        <td class="dark-text">{{ paymentAmount }}</td>
+        <td class="dark-text">{{ paymentAmount }} руб.</td>
       </tr>
       <tr>
         <td class="gray-text successful__keytext">Держатель карты:</td>
