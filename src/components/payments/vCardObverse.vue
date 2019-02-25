@@ -100,6 +100,7 @@ export default {
   }
 
   @media (max-width: 480px) {
+    max-width: 350px;
     width: 100%;
     padding: 15px;
   }
