@@ -18,5 +18,23 @@ export default {
   transition: all 0.2s;
   box-sizing: border-box;
   overflow-y: scroll;
+
+  @media (max-width: 1000px) {
+    height: 662px;
+  }
+
+  @media (max-width: 768px) {
+    height: 524px;
+    padding: 15px 20px;
+  }
+
+  @media (max-width: 768px) {
+    height: 599px;
+    padding: 15px 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 }
 </style>

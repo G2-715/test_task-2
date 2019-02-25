@@ -98,5 +98,10 @@ export default {
     display: flex;
     justify-content: flex-start;
   }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 15px;
+  }
 }
 </style>

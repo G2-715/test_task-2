@@ -24,7 +24,10 @@
             :invalid="invalidPaymentAmount"
             @change="changePaymentAmount"
           />
-          <span v-show="paymentAmount" class="dark-text">руб.</span>
+          <span
+            v-show="paymentAmount"
+            class="dark-text"
+          >руб.</span>
         </td>
       </tr>
     </table>
@@ -54,19 +57,17 @@ export default {
       "SET_VALID_ACCOUNT_NUMBER",
       "SET_VALID_PAYMENT_AMOUNT",
       "CHANGE_ACCOUNT_NUMBER",
-      "CHANGE_PAYMENT_AMOUNT",
+      "CHANGE_PAYMENT_AMOUNT"
     ]),
 
     changeAccountNumber(value) {
-      if (this.invalidAccountNumber)
-        this.SET_VALID_ACCOUNT_NUMBER();
+      if (this.invalidAccountNumber) this.SET_VALID_ACCOUNT_NUMBER();
 
       this.CHANGE_ACCOUNT_NUMBER(value);
     },
     changePaymentAmount(value) {
-      if (this.invalidPaymentAmount)
-        this.SET_VALID_PAYMENT_AMOUNT();
-        
+      if (this.invalidPaymentAmount) this.SET_VALID_PAYMENT_AMOUNT();
+
       this.CHANGE_PAYMENT_AMOUNT(value);
     }
   }
@@ -82,16 +83,22 @@ export default {
     margin-bottom: 20px;
   }
 
-  td {
-    vertical-align: top;
-  }
-
   &__table {
     border: 0;
     border-spacing: 0;
 
+    td {
+      vertical-align: top;
+    }
+
     &-keytext {
       padding-right: 40px;
+    }
+
+    @media (max-width: 480px) {
+      &-keytext {
+        padding-right: 10px;
+      }
     }
   }
 }

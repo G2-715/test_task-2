@@ -86,8 +86,16 @@ export default {
     transition: all 0.3s;
     text-shadow: 0 0 0 #373c43;
 
+    @media (max-width: 480px) {
+      width: 60px;
+    }
+
     &:not(:last-child) {
       margin-right: 9px;
+
+      @media (max-width: 480px) {
+        margin-right: 7px;
+      }
     }
 
     &:focus {

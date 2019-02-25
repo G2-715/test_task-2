@@ -16,7 +16,7 @@ export default {
   components: {
     "v-card-code-input": vCardCodeInput
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -32,6 +32,21 @@ export default {
   border-radius: 10px;
   z-index: 0;
   box-sizing: border-box;
+
+  @media (max-width: 1000px) {
+    width: 350px;
+    padding-top: 160px;
+  }
+
+  @media (max-width: 768px) {
+    width: 370px;
+    padding-top: 85px;
+  }
+
+  @media (max-width: 570px) {
+    width: 350px;
+    padding-top: 160px;
+  }
 
   &__magnet-tape {
     position: absolute;

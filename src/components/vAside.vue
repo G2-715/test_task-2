@@ -9,7 +9,7 @@
       }"
       v-for="(tab, index) in tabs"
       :key="index"
-    >{{ tab.text + ($route.path === tab.address ? ' (активная)' : '') }}</router-link>
+    >{{ tab.text}} {{ $route.path === tab.address ? '(активная)' : '' }}</router-link>
   </ul>
 </template>
 
@@ -49,6 +49,29 @@ export default {
 
     &:hover {
       background-color: #1f2229;
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+
+    &__tab {
+      flex-basis: calc(100% / 3);
+      flex-grow: 1;
+      padding: 15px;
+      font-size: 16px;
+      text-align: center;
+      border-bottom: 1px solid #1f2f2f;
+      border-right: 1px solid #1f2f2f;
+    }
+  }
+
+  @media (max-width: 480px) {
+    &__tab {
+      flex-basis: calc(100% / 2);
+      padding: 10px;
+      font-size: 15px;
     }
   }
 }

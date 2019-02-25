@@ -22,6 +22,10 @@ export default {
   background-color: #373c43;
   box-sizing: border-box;
 
+  @media (max-width: 768px) {
+    padding: 15px 20px;
+  }
+
   &__text {
     margin: 0;
     font-family: "Arial MT";

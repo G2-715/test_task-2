@@ -58,6 +58,7 @@ export default {
 <style lang="scss" scoped>
 .card-code-input {
   position: relative;
+  z-index: 100;
 
   &__value {
     width: 100%;

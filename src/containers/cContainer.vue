@@ -17,6 +17,11 @@ export default {
   margin: 0 auto;
   max-width: 1000px;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    padding: 0;
+  }
 }
 </style>
 

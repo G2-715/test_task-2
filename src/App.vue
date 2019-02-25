@@ -1,22 +1,23 @@
 <template>
   <div id="app">
-    <div class="background">
-      <c-container>
-        <c-aside>
-          <v-aside />
-        </c-aside>
+    <c-container>
+      <c-aside>
+        <v-aside />
+      </c-aside>
 
-        <c-content>
-          <c-content-wrapper>
-            <transition name="fade" mode="out-in">
-              <router-view />
-            </transition>
-          </c-content-wrapper>
+      <c-content>
+        <c-content-wrapper>
+          <transition
+            name="fade"
+            mode="out-in"
+          >
+            <router-view />
+          </transition>
+        </c-content-wrapper>
 
-          <v-footer />
-        </c-content>
-      </c-container>
-    </div>
+        <v-footer />
+      </c-content>
+    </c-container>
   </div>
 </template>
 
@@ -103,11 +104,17 @@ p {
   text-shadow: 0 0 0 #bec6cf !important;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: all .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   transform: translateX(calc(-100% - 45px));
   opacity: 0;
+
+  @media (max-width: 768px) {
+    transform: none;
+  }
 }
 </style>

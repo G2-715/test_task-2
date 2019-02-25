@@ -25,7 +25,7 @@ export default {
 <style lang="scss" scoped>
 .payments-cards {
   margin-bottom: 20px;
-  
+
   &__headline {
     margin: 0;
     margin-bottom: 20px;
@@ -41,6 +41,33 @@ export default {
     display: flex;
     justify-content: flex-end;
     padding-top: 20px;
+
+    @media (max-width: 1000px) {
+      padding-top: 95px;
+      justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      padding-top: 20px;
+      padding-left: 150px;
+      justify-content: flex-start;
+    }
+
+    @media (max-width: 570px) {
+      padding-top: 95px;
+      padding-left: 0;
+      justify-content: center;
+    }
+
+    @media (max-width: 480px) {
+      padding-top: 85px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    &__headline {
+      font-size: 20px;
+    }
   }
 }
 </style>
